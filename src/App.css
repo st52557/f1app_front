@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+
+@font-face {
+  font-family: 'Formula1';
+  src: local('Formula1'), url(./fonts/Formula1-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Formula1';
+  font-weight: 900;
+  src: local('Formula1'), url(./fonts/Formula1-Bold.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Formula1';
+  font-weight: 900;
+  src: local('Formula1'), url(./fonts/Formula1-Black.ttf) format('truetype');
+}
