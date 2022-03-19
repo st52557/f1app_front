@@ -1,11 +1,11 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import {createContext, useContext, useEffect, useState} from 'react';
 import jwt_decode from "jwt-decode";
 
 const getUser = (token) => (token && jwt_decode(token));
 
 const AuthContext = createContext();
 
-function AuthProvider({ children }) {
+function AuthProvider({children}) {
 
     const removeTokens = () => {
         localStorage.removeItem("tokens");
@@ -90,4 +90,4 @@ function useAuth() {
     }
 }
 
-export { AuthProvider, useAuth }
+export {AuthProvider, useAuth}

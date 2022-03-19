@@ -2,7 +2,7 @@ import {Link, Navigate} from "react-router-dom";
 import {useAuth} from "./AuthContext";
 import React, {useState} from 'react';
 import {Form, Button, Container, Row, Alert, Col} from 'react-bootstrap';
-import './user.css'
+import './User.css'
 
 function LoginForm() {
 
@@ -49,30 +49,30 @@ function LoginForm() {
         )
     } else {
         return (
-                <div className={'form'}>
-                    <Form onSubmit={postLogin}>
-                        <Form.Group controlId="formUsername">
-                            <Form.Control type={"text"} placeholder={"Username"} onChange={e => {
-                                setName(e.target.value)
-                            }}/>
-                        </Form.Group>
-                        <Form.Group controlId="formPassword" className={'mt-3'}>
-                            <Form.Control type={"password"} placeholder="Password" onChange={e => {
-                                setPassword(e.target.value)
-                            }}/>
-                        </Form.Group>
-                        <Form.Group className={'reset-pass'}>
-                            <Link to="/password-reset">I forgot my password</Link>
-                        </Form.Group>
-                        <Button variant="primary" type="submit" className={'mt-3 center'}>
-                            Login
-                        </Button>
-                    </Form>
+            <div className={'form'}>
+                <Form onSubmit={postLogin}>
+                    <Form.Group controlId="formUsername">
+                        <Form.Control type={"text"} placeholder={"Username"} onChange={e => {
+                            setName(e.target.value)
+                        }}/>
+                    </Form.Group>
+                    <Form.Group controlId="formPassword" className={'mt-3'}>
+                        <Form.Control type={"password"} placeholder="Password" onChange={e => {
+                            setPassword(e.target.value)
+                        }}/>
+                    </Form.Group>
+                    <Form.Group className={'reset-pass'}>
+                        <Link to="/password-reset">I forgot my password</Link>
+                    </Form.Group>
+                    <Button variant="primary" type="submit" className={'mt-3 center'}>
+                        Login
+                    </Button>
+                </Form>
 
-                    <Alert hidden={!isError} type={"danger"}>
-                        {isError}
-                    </Alert>
-                </div>
+                <Alert hidden={!isError} type={"danger"}>
+                    {isError}
+                </Alert>
+            </div>
         )
     }
 }

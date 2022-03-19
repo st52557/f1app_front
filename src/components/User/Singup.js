@@ -46,8 +46,7 @@ function SignUp() {
 
     if (signedUp) {
         return <Navigate to="/"/>;
-    }
-    else {
+    } else {
         return (
             <div className={'form'}>
                 <Form onSubmit={signUpHandler}>

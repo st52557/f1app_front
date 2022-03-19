@@ -5,8 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: grey;
-
+  background: white;
+  box-sizing: border-box;
 }
 
 code {
@@ -16,4 +16,17 @@ code {
 
 main{
   text-align: center;
+  box-sizing: border-box;
+}
+
+.hero {
+  background-image: url("./Assets/RB13.jpg");
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+html, body, #root, .App {
+  height: 100%;
 }

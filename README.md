@@ -18,3 +18,10 @@ In the project directory, you can run:
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+
+
+### Special credits
+
+Home background image: 
+By Andrew &amp; Alan Frost from Essex, United Kingdom - RB13, CC BY 2.0, https://commons.wikimedia.org/w/index.php?curid=97345518
