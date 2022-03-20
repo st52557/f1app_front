@@ -14,7 +14,7 @@ function Home() {
                 <div className={'hero-area'}>
                     <div>
                         <h1 id={'hero-text'}>Hello world!</h1>
-                        <p className={'sub-hero'}>If you see this everything is working!</p>
+                        <p className={'sub-hero'}>And good day to the others!</p>
                     </div>
                     <div className={'sub-hero'}>
                         <Link to="/">Home</Link><br/>
