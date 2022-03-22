@@ -6,6 +6,8 @@ import Home from "./components/Home/Home";
 import Logout from "./components/User/Logout";
 import Races from "./components/Race/Races";
 import Drivers from "./components/Driver/Drivers";
+import Results from "./components/Result/Results";
+import Race from "./components/Race/Race";
 
 const RoutesAll = () => (
     <Routes>
@@ -15,6 +17,9 @@ const RoutesAll = () => (
         <Route path="/logout" element={<Logout/>}/>
         <Route path="/races" element={<Races/>}/>
         <Route path="/drivers" element={<Drivers/>}/>
+        <Route path="/results" element={<Results/>}/>
+
+        <Route exact path='/race/:id' element={<Race/>}/>
 
     </Routes>
 );

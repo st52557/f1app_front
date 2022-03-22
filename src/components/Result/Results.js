@@ -1,54 +1,55 @@
 import React, {useEffect, useState} from 'react';
-import './Driver.scss'
+import './Result.scss'
 import {useAuth} from "../User/AuthContext";
 import {Container} from "react-bootstrap";
 import MyDataGrid from "../Home/DataGrid";
 
 const columns = [
     {
-        name: 'Name',
-        selector: row => row.name,
+        name: 'Year',
+        selector: row => row.race.year,
         sortable: true,
     },
     {
-        name: 'Surername',
-        selector: row => row.surename,
+        name: 'Race',
+        selector: row => row.race.circuit,
         sortable: true,
     },
     {
-        name: 'Code',
-        selector: row => row.code,
+        name: 'Driver',
+        selector: row => row.driver.name + " " + row.driver.surename,
         sortable: true,
     },
     {
-        name: 'Ref',
-        selector: row => row.ref_name,
+        name: 'Start position',
+        selector: row => row.positionStart,
         sortable: true,
     },
     {
-        name: 'Nationality',
-        selector: row => row.nationalilty,
+        name: 'Final position',
+        selector: row => row.positionFinal,
         sortable: true,
     },
     {
-        name: 'Born',
-        selector: row => row.born,
+        name: 'Points',
+        selector: row => row.points,
         sortable: true,
     },
+
 ];
 
-function Drivers() {
+function Results() {
 
     const {token} = useAuth();
     const [error, setError] = useState("");
-    const [drivers, setDrivers] = useState([]);
+    const [results, setResults] = useState([]);
     const [selectedRow, setSelectedRow] = useState([]);
     const [editRow, setEditRow] = useState([]);
     const {admin} = useAuth();
 
     useEffect(() => {
         fetch(
-            `${process.env.REACT_APP_BASE_URI}/drivers`,
+            `${process.env.REACT_APP_BASE_URI}/results`,
             {
                 method: 'GET',
                 headers:
@@ -63,7 +64,7 @@ function Drivers() {
                 throw new Error("Unable to get data: " + r.statusText);
             })
             .then(json => {
-                setDrivers(json)
+                setResults(json)
             })
             .catch((err) => setError(err.message))
     }, [])
@@ -82,7 +83,6 @@ function Drivers() {
         clearTimeout(pendingClick)
         pendingClick = setTimeout(() => {
             setSelectedRow(row);
-            console.log("Single click: ", row.name);
             clicked = 0;
         }, time_dbclick);
 
@@ -91,20 +91,19 @@ function Drivers() {
 
     const handleDoubleClick = (row) => {
         setEditRow(row);
-        console.log("Double click: ", row.name);
     };
 
     return (
-        <div id={'drivers'}>
-            <h1 style={{paddingTop: '2em'}}>Drivers {admin}</h1>
+        <div id={'results'}>
+            <h1 style={{paddingTop: '2em'}}>Results</h1>
 
             <Container>
                 <div>
-                    <h4>Table of Drivers</h4>
-                    <div className="drivers-table">
+                    <h4>Table of Results</h4>
+                    <div className="results-table">
                         <MyDataGrid
                             columns={columns}
-                            data={drivers}
+                            data={results}
                             onRowClicked={token ? handleClick : undefined}
                             onRowDoubleClicked={admin ? undefined : handleDoubleClick}
                         />
@@ -116,4 +115,4 @@ function Drivers() {
 
 }
 
-export default Drivers;
+export default Results;

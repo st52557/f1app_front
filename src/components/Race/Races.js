@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import './Race.scss'
 import {useAuth} from "../User/AuthContext";
 import {Container} from "react-bootstrap";
 import MyDataGrid from "../Home/DataGrid";
+import {useNavigate} from "react-router-dom";
+import './Race.scss'
 
 const columns = [
     {
@@ -69,9 +70,12 @@ function Races() {
             setSelectedRow(row);
             console.log("Single click: ", row.circuit);
             clicked = 0;
+            goToRaceDetail(row.id);
         }, time_dbclick);
-
     };
+
+    const navigate = useNavigate();
+    const goToRaceDetail = (id) => navigate(`/race/${id}`);
 
     const handleDoubleClick = (row) => {
         setEditRow(row);
@@ -90,7 +94,7 @@ function Races() {
                             columns={columns}
                             data={races}
                             onRowClicked={token ? handleClick : undefined}
-                            onRowDoubleClicked={admin ? undefined : handleDoubleClick}
+                            onRowDoubleClicked={admin ? handleDoubleClick : undefined}
                         />
                     </div>
                 </div>
