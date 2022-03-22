@@ -9,12 +9,14 @@ function AuthProvider({children}) {
 
     const removeTokens = () => {
         localStorage.removeItem("tokens");
+        localStorage.removeItem("admin");
 
         setState({
             status: 'success',
             error: null,
             user: null,
             token: authTokens,
+            admin: null,
             setTokens,
             removeTokens
         })
@@ -28,15 +30,19 @@ function AuthProvider({children}) {
     })
 
     const setTokens = (data) => {
-        localStorage.setItem("tokens", data);
+        localStorage.setItem("tokens", data.token);
+        localStorage.setItem("admin", data.admin);
 
-        setAuthTokens(data);
-        const user = getUser(data);
+        console.log("setTokens: ", data.admin);
+
+        setAuthTokens(data.token);
+        const user = getUser(data.token);
         setState({
                 status: 'success',
                 error: null,
                 user: user,
-                token: data,
+                token: data.token,
+                admin: data.admin,
                 setTokens,
                 removeTokens
             }
@@ -44,12 +50,16 @@ function AuthProvider({children}) {
 
     }
 
+
     useEffect(() => {
         const user = getUser(localStorage.getItem("tokens"));
+        const admin = localStorage.getItem("admin");
+        console.log("useEffect: ", admin);
         setState({
                 status: 'success',
                 error: null,
                 user: user,
+                admin: admin,
                 token: localStorage.getItem("tokens"),
                 setTokens,
                 removeTokens

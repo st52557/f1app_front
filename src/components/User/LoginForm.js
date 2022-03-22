@@ -11,6 +11,7 @@ function LoginForm() {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const {setTokens} = useAuth();
+    const {setAdmin} = useAuth();
 
     function postLogin(e) {
         e.preventDefault()
@@ -35,7 +36,8 @@ function LoginForm() {
                 throw new Error(`Unable to get data: ${response.statusText}`)
             })
             .then(json => {
-                setTokens(json.token);
+                setTokens(json);
+                console.log(json.admin);
                 setLoggedIn(true);
             })
             .catch((err) => {
