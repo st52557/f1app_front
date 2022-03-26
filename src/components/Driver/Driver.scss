@@ -1,4 +1,4 @@
-#drivers{
+#drivers {
   height: calc(100% - 87px); // Weirdge...
   background-image: url("../../Assets/red_bg.png");
   background-position: center;
@@ -6,7 +6,7 @@
   background-size: cover;
 }
 
-.drivers-table{
+.drivers-table {
   max-width: 1000px;
   text-align: center;
 }
@@ -15,10 +15,10 @@
   text-align: -webkit-center;
 }
 
-.compare-drivers{
+.compare-drivers {
 }
 
-.compared-driver{
+.compared-driver {
   background-color: rgba(255, 255, 255, 0.5);
   max-width: max-content;
   text-align: -webkit-center;

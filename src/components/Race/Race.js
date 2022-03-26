@@ -40,12 +40,13 @@ function Race() {
             <h1 style={{paddingTop: '2em'}}>{race.circuit}</h1>
 
             <Container>
-                <div>
+                <div className={"race-detail"}>
                     <h4>{race.year}</h4>
 
-                    <div>
+                    <p>Race number in its season: {race.round}</p>
+                    <div className={"race-detail"}>
 
-                        {JSON.stringify(race, null, 2)}
+
 
                     </div>
                 </div>

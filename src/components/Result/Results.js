@@ -105,7 +105,7 @@ function Results() {
                             columns={columns}
                             data={results}
                             onRowClicked={token ? handleClick : undefined}
-                            onRowDoubleClicked={admin ? undefined : handleDoubleClick}
+                            onRowDoubleClicked={admin==='true' ? handleDoubleClick : undefined}
                         />
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useAuth} from "../User/AuthContext";
-import {Container} from "react-bootstrap";
+import {Button, Container} from "react-bootstrap";
 import MyDataGrid from "../Home/DataGrid";
 import {useNavigate} from "react-router-dom";
 import './Race.scss'
@@ -76,11 +76,15 @@ function Races() {
 
     const navigate = useNavigate();
     const goToRaceDetail = (id) => navigate(`/race/${id}`);
+    const goToRaceEdit = (id) => navigate(`/race/${id}/edit`);
+    const goToRaceNew = () => navigate(`/race/new`);
 
     const handleDoubleClick = (row) => {
-        setEditRow(row);
         console.log("Double click: ", row.circuit);
+        setEditRow(row);
+        goToRaceEdit(row.id);
     };
+
 
     return (
         <div id={'races'}>
@@ -90,11 +94,12 @@ function Races() {
                 <div>
                     <h4>Table of Races</h4>
                     <div className="race-table">
+                        {admin==='true' ? <Button variant="success" onClick={goToRaceNew}>New race</Button> : ''}
                         <MyDataGrid
                             columns={columns}
                             data={races}
                             onRowClicked={token ? handleClick : undefined}
-                            onRowDoubleClicked={admin ? handleDoubleClick : undefined}
+                            onRowDoubleClicked={admin==='true' ? handleDoubleClick : undefined}
                         />
                     </div>
                 </div>

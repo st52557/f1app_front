@@ -32,10 +32,10 @@ function CompareDrivers() {
                 }
                 throw new Error("Unable to get data: " + r.statusText);
             })
-           // .then(response => response.json())
+            // .then(response => response.json())
             .then(json => {
 
-                setDrivers((json.map(({ id, name, surename }) => ({ value: id, name: name+" "+surename }))));
+                setDrivers((json.map(({id, name, surename}) => ({value: id, name: name + " " + surename}))));
 
             })
             .catch((err) => setError(err.message))
@@ -77,12 +77,13 @@ function CompareDrivers() {
                                     value={selected2}
                                     search
                                     placeholder="Select second driver"
-                                    onChange={setSelected2}
+                                    printOptions="auto"
+
                                 />
                                 <h4>2 - {driver2.name}</h4>
 
                                 <div>
-                                    {JSON.stringify(selected2,null,2)}
+                                    {JSON.stringify(selected2, null, 2)}
                                     {JSON.stringify(driver2, null, 2)}
 
                                 </div>

@@ -10,6 +10,7 @@ import Results from "./components/Result/Results";
 import Race from "./components/Race/Race";
 import Driver from "./components/Driver/Driver";
 import CompareDrivers from "./components/Driver/CompareDrivers";
+import RaceForm from "./components/Race/RaceForm";
 
 const RoutesAll = () => (
     <Routes>
@@ -25,6 +26,11 @@ const RoutesAll = () => (
 
         <Route exact path='/race/:id' element={<Race/>}/>
         <Route exact path='/driver/:id' element={<Driver/>}/>
+
+        <Route exact path='/race/:id/edit' element={<RaceForm/>}/>
+        <Route exact path='/race/new' element={<RaceForm/>}/>
+
+
         {/*<Route exact path='/result/:id' element={<Race/>}/>*/}
     </Routes>
 );
