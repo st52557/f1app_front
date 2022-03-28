@@ -1,0 +1,35 @@
+Form {
+    padding: 5px;
+}
+
+.form {
+    background-color: white;
+    text-align: center;
+    max-width: 400px;
+    min-width: 300px;
+    max-height: 700px;
+    width: 50%;
+    margin: 100px auto;
+    border-radius: 10px;
+    padding: 40px;
+}
+
+.reset-pass {
+    text-align: right;
+}
+
+.hero-area{
+  background-color: rgba(236, 236, 236, 0.5);
+  position: absolute;
+  margin-top: 10em;
+  width: 100%;
+}
+
+#hero-text {
+  font-size: 6em;
+  padding-top: 0.2em;
+}
+
+.sub-hero {
+  font-size: 1.5em;
+}

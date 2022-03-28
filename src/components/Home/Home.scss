@@ -1,0 +1,63 @@
+
+.navbar-brand {
+  padding-left: 15px;
+}
+
+#collasible-nav-dropdown {
+  padding-right: 50px;
+
+}
+
+.dropdown-toggle::before {
+  display: none !important;
+}
+
+.my-navbar {
+  background-color: transparent;
+  font-size: 1.6em;
+
+}
+
+#footer {
+  background: #262626;
+  padding: 40px 0 20px 0;
+}
+#footer p {
+  font-size: 14px;
+  color: #666;
+}
+
+.text-center{
+  text-align: center;
+}
+
+#credit {
+  font-size:0.4em;
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 250px;
+}
+
+
+// Danger zone...
+
+.navbar-light .navbar-nav .nav-link {
+  color: white !important;
+}
+
+.navbar-light .navbar-nav :hover {
+  color: grey !important;
+}
+
+.navbar-light .navbar-nav .active {
+  color: black !important;
+}
+
+.navbar-light .navbar-brand {
+  color: black !important;
+  font-size: 1.6em;
+}

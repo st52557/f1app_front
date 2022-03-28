@@ -1,0 +1,32 @@
+#races {
+  height: calc(100% - 87px); // Weirdge...
+  background-image: url("../../Assets/red_bg.png");
+  background-position: center;
+  background-repeat: repeat;
+  background-size: cover;
+}
+
+.race-table {
+  max-width: 800px;
+  text-align: center;
+}
+
+.container {
+  text-align: -webkit-center;
+}
+
+.race-detail {
+  background-color: rgba(255, 255, 255, 0.5);
+  text-align: -webkit-center;
+  text-align: center;
+  margin: 20px;
+  max-width: 1000px;
+}
+
+.container {
+  text-align: -webkit-center;
+}
+
+#race-head {
+margin-bottom: 30px;
+}
