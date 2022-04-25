@@ -18,6 +18,7 @@ function MyNavbar() {
                 <Nav>
                     <Nav.Link href="/races">Races</Nav.Link>
                     <Nav.Link href="/drivers">Drivers</Nav.Link>
+                    <Nav.Link href="/compare">Compare</Nav.Link>
                     <Nav.Link style={{paddingRight: '30px'}} href="/results">Results</Nav.Link>
 
                     {user ?
