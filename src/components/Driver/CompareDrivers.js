@@ -3,6 +3,7 @@ import {Col, Row, Container} from "react-bootstrap";
 import './Driver.scss'
 import {useAuth} from "../User/AuthContext";
 import Select from 'react-select'
+import PointsGraph from "./PointsGraph";
 
 function CompareDrivers() {
 
@@ -12,7 +13,8 @@ function CompareDrivers() {
     const [selected2, setSelected2] = useState({});
     const [comparedDrivers, setComparedDrivers] = useState({});
     const [error, setError] = useState("");
-
+    const [sumPoints1, setSumPoints1] = useState({});
+    const [sumPoints2, setSumPoints2] = useState({});
     useEffect(() => {
 
         fetch(
@@ -64,7 +66,7 @@ function CompareDrivers() {
     }
 
     useEffect(() => {
-
+        console.log("COMPARING ",selected1.value, selected2.value);
         if (selected1.value && selected2.value) {
             compareDrivers();
         }
@@ -74,17 +76,20 @@ function CompareDrivers() {
 
     const selectSecondDriver = (selectedOption) => {
         setSelected2(selectedOption);
+        //getSumPoints(selectedOption.value,false);
     };
 
     const selectFirstDriver = (selectedOption) => {
         setSelected1(selectedOption);
+        //getSumPoints(selectedOption.value,true);
+
     };
 
 
     return (
 
         <div>
-            <h1 style={{paddingTop: '2em',paddingBottom: '2em'}}>Comparing drivers</h1>
+            <h1 style={{paddingTop: '2em', paddingBottom: '2em'}}>Comparing drivers</h1>
 
             <div className={"compare-drivers"}>
                 <Container>
@@ -97,8 +102,10 @@ function CompareDrivers() {
                                     onChange={selectFirstDriver}
                                 />
                                 <br/>
+
+                                <br/>
                                 {comparedDrivers &&
-                                <div>
+                                <div className={"compare-results"}>
                                     <p>Overtakes: {comparedDrivers?.overtakes?.firstDriver}</p>
                                     <p>Points: {comparedDrivers?.pointsScored?.firstDriver}</p>
                                     <p>Wins: {comparedDrivers?.racesWon?.firstDriver}</p>
@@ -114,8 +121,9 @@ function CompareDrivers() {
                                     onChange={selectSecondDriver}
                                 />
                                 <br/>
+                                <br/>
                                 {comparedDrivers &&
-                                <div>
+                                <div className={"compare-results"}>
                                     <p>Overtakes: {comparedDrivers?.overtakes?.secondDriver}</p>
                                     <p>Points: {comparedDrivers?.pointsScored?.secondDriver}</p>
                                     <p>Wins: {comparedDrivers?.racesWon?.secondDriver}</p>
