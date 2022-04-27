@@ -3,6 +3,7 @@ import {Container} from "react-bootstrap";
 import './Driver.scss'
 import {useParams} from "react-router-dom";
 import {useAuth} from "../User/AuthContext";
+import PointsGraph from "./PointsGraph";
 
 function Driver() {
 
@@ -10,6 +11,7 @@ function Driver() {
     const {token} = useAuth();
     const [driver, setDriver] = useState({});
     const [error, setError] = useState("");
+    const [sumPoints, setSumPoints] = useState({});
 
     useEffect(() => {
         fetch(
@@ -31,20 +33,64 @@ function Driver() {
                 setDriver(json);
             })
             .catch((err) => setError(err.message))
+
+        getSumPoints(id);
+
     }, [])
 
+    const getSumPoints = (id) => {
+        fetch(`${process.env.REACT_APP_BASE_URI}/result/sum/${id}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json()
+                }
+                throw new Error(`Unable to get data: ${response.statusText}`)
+            })
+            .then(json => {
+                const res = json.map((data) => ({...data, time: data.round + "_" + data.year}));
+                setSumPoints(res);
+            })
+            .catch((err) => {
+                setError(err.message)
+            });
+    }
 
     return (
-        <div>
-            <h1 style={{paddingTop: '2em'}}>{driver.name} + {driver.surename}</h1>
-
+        <div id={"driver"}>
             <Container>
-                <div>
-                    <h4>{driver.code}</h4>
 
+                <span id={"driver-name"}>{driver.name} {driver.surename}</span>
+
+                <div>
                     <div>
 
-                        {JSON.stringify(driver, null, 2)}
+                        <div className={"driver-info"}>
+                            <div className={"driver-field"}>
+                                <span>Code</span>
+                                <span className={"driver-attribute"}>{driver.code}</span>
+                            </div>
+
+                            <div className={"driver-field"}>
+                                <span>Nationality</span>
+                                <span className={"driver-attribute"}>{driver.nationalilty}</span>
+                            </div>
+
+                            <div className={"driver-field"}>
+                                <span>Born</span>
+                                <span className={"driver-attribute"}>{driver.born}</span>
+                            </div>
+                        </div>
+
+                        <br/>
+
+                        <PointsGraph data={sumPoints} driver={driver}/>
 
                     </div>
                 </div>
