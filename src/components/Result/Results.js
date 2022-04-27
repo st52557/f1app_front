@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import './Result.scss'
 import {useAuth} from "../User/AuthContext";
-import {Container} from "react-bootstrap";
+import {Button, Container} from "react-bootstrap";
 import MyDataGrid from "../Home/DataGrid";
+import {useNavigate} from "react-router-dom";
 
 const columns = [
     {
@@ -84,13 +85,21 @@ function Results() {
         pendingClick = setTimeout(() => {
             setSelectedRow(row);
             clicked = 0;
+            goToResultDetail(row.id);
         }, time_dbclick);
 
 
     };
 
+    const navigate = useNavigate();
+    const goToResultDetail = (id) => navigate(`/result/${id}`);
+    const goToResultEdit = (id) => navigate(`/result/${id}/edit`);
+    const goToResultNew = () => navigate(`/result/new`);
+
+
     const handleDoubleClick = (row) => {
         setEditRow(row);
+        goToResultEdit(row.id);
     };
 
     return (
@@ -101,6 +110,7 @@ function Results() {
                 <div>
                     <h4>Table of Results</h4>
                     <div className="results-table">
+                        {admin==='true' ? <Button variant="success" onClick={goToResultNew}>New result</Button> : ''}
                         <MyDataGrid
                             columns={columns}
                             data={results}
