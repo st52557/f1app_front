@@ -3,6 +3,7 @@ import './Result.scss'
 import {Link, Navigate, useNavigate, useParams} from "react-router-dom";
 import {useAuth} from "../User/AuthContext";
 import {Alert, Button, Form} from "react-bootstrap";
+import Select from "react-select";
 
 function ResultForm() {
 
@@ -11,7 +12,7 @@ function ResultForm() {
     const [result, setResult] = useState({});
     const [error, setError] = useState("");
 
-    const [fastestLap,setFfastestLap] = useState(0);
+    const [fastestLap, setFfastestLap] = useState(0);
     const [fastestTimeSpeed, setFastestTimeSpeed] = useState(0);
     const [laps, setLaps] = useState(0);
     const [milisTime, setMilisTime] = useState(0);
@@ -19,12 +20,58 @@ function ResultForm() {
     const [positionFinal, setPositionFinal] = useState(0);
     const [positionOrder, setPositionOrder] = useState(0);
     const [positionStart, setPositionStart] = useState(0);
-    const [raceId, seTraceId] = useState(0);
-    const [driverId, setDriverId] = useState(0);
-
+    const [drivers, setDrivers] = useState([]);
+    const [races, setRaces] = useState([]);
+    const [selectedDriver, setSelectedDriver] = useState(null);
+    const [selectedRace, setSelectedRace] = useState(null);
 
     useEffect(() => {
         if (id) getResult();
+
+        fetch(
+            `${process.env.REACT_APP_BASE_URI}/drivers`,
+            {
+                method: 'GET',
+                headers:
+                    {
+                        'Authorization': token
+                    }
+            })
+            .then(r => {
+                if (r.ok) {
+                    return r.json();
+                }
+                throw new Error("Unable to get data: " + r.statusText);
+            })
+            // .then(response => response.json())
+            .then(json => {
+
+                setDrivers((json.map(({id, name, surename}) => ({value: id, label: name + " " + surename}))));
+
+            })
+            .catch((err) => setError(err.message))
+
+        fetch(
+            `${process.env.REACT_APP_BASE_URI}/races`,
+            {
+                method: 'GET',
+                headers:
+                    {
+                        'Authorization': token
+                    }
+            })
+            .then(r => {
+                if (r.ok) {
+                    return r.json();
+                }
+                throw new Error("Unable to get data: " + r.statusText);
+            })
+            .then(json => {
+                //setRaces(json)
+                setRaces((json.map(({id, circuit, year}) => ({value: id, label: year + " - " + circuit}))));
+
+            })
+            .catch((err) => setError(err.message))
 
         return () => {
             setResult({});
@@ -92,8 +139,8 @@ function ResultForm() {
             positionFinal: positionFinal,
             positionOrder: positionOrder,
             positionStart: positionStart,
-            raceId: raceId,
-            driverId: driverId
+            raceId: selectedRace.value,
+            driverId: selectedDriver.value
 
         }
 
@@ -121,10 +168,17 @@ function ResultForm() {
             });
     }
 
+    const selectDriver = (selectedOption) => {
+        setSelectedDriver(selectedOption);
+    };
+
+    const selectRace = (selectedOption) => {
+        setSelectedRace(selectedOption);
+    };
 
     return (
         <div>
-            {result.id ? <h1 style={{paddingTop: '2em'}}>Edit of: {result.circuit}</h1> :
+            {result.id ? <h1 style={{paddingTop: '2em'}}>Edit of: {result.driver.code} - {result.race.circuit}</h1> :
                 <h1 style={{paddingTop: '2em'}}>New result</h1>}
             {result.id ?
                 <Button variant="danger" onClick={() => {
@@ -134,17 +188,24 @@ function ResultForm() {
 
             {!result.id ?
 
-                <div className={'form'}>
+                <div className={'form mt-3'}>
                     <Form onSubmit={postResult}>
                         <Form.Group controlId="formDriverId" className={'mt-3'}>
-                            <Form.Control type={"number"} placeholder={"Driver id"} onChange={e => {
-                                setDriverId(e.target.value);
-                            }}/>
+                            <Select
+                                placeholder={'Driver'}
+                                options={drivers}
+                                value={selectedDriver}
+                                onChange={selectDriver}
+                            />
                         </Form.Group>
+
                         <Form.Group controlId="formRaceId" className={'mt-3'}>
-                            <Form.Control type={"number"} placeholder="Race id" onChange={e => {
-                                seTraceId(e.target.value);
-                            }}/>
+                            <Select
+                                placeholder={'Race'}
+                                options={races}
+                                value={selectedRace}
+                                onChange={selectRace}
+                            />
                         </Form.Group>
                         <Form.Group controlId="formPoints" className={'mt-3'}>
                             <Form.Control type={"number"} placeholder="Points" onChange={e => {

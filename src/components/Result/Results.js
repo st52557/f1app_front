@@ -47,27 +47,14 @@ function Results() {
     const [selectedRow, setSelectedRow] = useState([]);
     const [editRow, setEditRow] = useState([]);
     const {admin} = useAuth();
+    const [loading, setLoading] = useState(false);
+    const [totalRows, setTotalRows] = useState(0);
+    const [perPage, setPerPage] = useState(10);
+
 
     useEffect(() => {
-        fetch(
-            `${process.env.REACT_APP_BASE_URI}/results`,
-            {
-                method: 'GET',
-                headers:
-                    {
-                        'Authorization': token
-                    }
-            })
-            .then(r => {
-                if (r.ok) {
-                    return r.json();
-                }
-                throw new Error("Unable to get data: " + r.statusText);
-            })
-            .then(json => {
-                setResults(json)
-            })
-            .catch((err) => setError(err.message))
+        handleFetchResults(20,1);
+
     }, [])
 
     var pendingClick;
@@ -102,6 +89,66 @@ function Results() {
         goToResultEdit(row.id);
     };
 
+    const handleFetchResults = async page => {
+        setLoading(true);
+
+        fetch(`${process.env.REACT_APP_BASE_URI}/results?page=${encodeURIComponent(page)}&size=${encodeURIComponent(perPage)}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json()
+                }
+                throw new Error(`Unable to get data: ${response.statusText}`)
+            })
+            .then(json => {
+                setResults(json.content)
+                setTotalRows(json.totalElements);
+                setLoading(false);
+            })
+            .catch((err) => {
+                setError(err.message)
+            });
+
+    };
+
+    const handlePageChange = page => {
+        handleFetchResults(page);
+    };
+
+    const handlePerRowsChange = async (newPerPage, page) => {
+        setLoading(true);
+        fetch(`${process.env.REACT_APP_BASE_URI}/results?page=${encodeURIComponent(page)}&size=${encodeURIComponent(newPerPage)}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json()
+                }
+                throw new Error(`Unable to get data: ${response.statusText}`)
+            })
+            .then(json => {
+                setResults(json.content)
+                setPerPage(newPerPage);
+                setLoading(false);
+            })
+            .catch((err) => {
+                setError(err.message)
+            });
+    };
+
+
+
     return (
         <div id={'results'}>
             <h1 style={{paddingTop: '2em'}}>Results</h1>
@@ -116,6 +163,14 @@ function Results() {
                             data={results}
                             onRowClicked={token ? handleClick : undefined}
                             onRowDoubleClicked={admin==='true' ? handleDoubleClick : undefined}
+
+                            progressPending={loading}
+                            pagination
+                            paginationServer
+                            paginationTotalRows={totalRows}
+                            onChangeRowsPerPage={handlePerRowsChange}
+                            onChangePage={handlePageChange}
+
                         />
                     </div>
                 </div>

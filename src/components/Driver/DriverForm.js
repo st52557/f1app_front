@@ -126,7 +126,7 @@ function DriverForm() {
 
             {!driver.id ?
 
-                <div className={'form'}>
+                <div className={'form mt-3'}>
                     <Form onSubmit={postDriver}>
                         <Form.Group controlId="formName">
                             <Form.Control type={"text"} placeholder={"Driver name"} onChange={e => {
