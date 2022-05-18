@@ -28,7 +28,7 @@ function ResultForm() {
     useEffect(() => {
         if (id) getResult();
 
-        fetch(
+        fetch( // todo get drivers metoda
             `${process.env.REACT_APP_BASE_URI}/drivers`,
             {
                 method: 'GET',

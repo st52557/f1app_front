@@ -50,12 +50,16 @@ function Results() {
     const [loading, setLoading] = useState(false);
     const [totalRows, setTotalRows] = useState(0);
     const [perPage, setPerPage] = useState(10);
+    const [currPage, setCurrPage] = useState(1);
 
 
     useEffect(() => {
-        handleFetchResults(20,1);
+        handleFetchResults();
 
-    }, [])
+    }, [perPage, currPage])
+
+
+
 
     var pendingClick;
     var clicked = 0;
@@ -89,10 +93,10 @@ function Results() {
         goToResultEdit(row.id);
     };
 
-    const handleFetchResults = async page => {
+    const handleFetchResults = () => {
         setLoading(true);
 
-        fetch(`${process.env.REACT_APP_BASE_URI}/results?page=${encodeURIComponent(page)}&size=${encodeURIComponent(perPage)}`,
+        fetch(`${process.env.REACT_APP_BASE_URI}/results?page=${currPage}&size=${perPage}`,
             {
                 method: 'GET',
                 headers: {
@@ -117,34 +121,16 @@ function Results() {
 
     };
 
-    const handlePageChange = page => {
-        handleFetchResults(page);
+    const onPageChanged = async (page) => {
+
+        setCurrPage(page);
+
     };
 
-    const handlePerRowsChange = async (newPerPage, page) => {
-        setLoading(true);
-        fetch(`${process.env.REACT_APP_BASE_URI}/results?page=${encodeURIComponent(page)}&size=${encodeURIComponent(newPerPage)}`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': token
-                },
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json()
-                }
-                throw new Error(`Unable to get data: ${response.statusText}`)
-            })
-            .then(json => {
-                setResults(json.content)
-                setPerPage(newPerPage);
-                setLoading(false);
-            })
-            .catch((err) => {
-                setError(err.message)
-            });
+    const onRowsChange = async (newPerPage) => {
+
+        setPerPage(newPerPage);
+
     };
 
 
@@ -168,8 +154,8 @@ function Results() {
                             pagination
                             paginationServer
                             paginationTotalRows={totalRows}
-                            onChangeRowsPerPage={handlePerRowsChange}
-                            onChangePage={handlePageChange}
+                            onChangeRowsPerPage={onRowsChange}
+                            onChangePage={onPageChanged}
 
                         />
                     </div>
