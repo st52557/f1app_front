@@ -10,7 +10,6 @@ function Driver() {
     const {id} = useParams();
     const {token} = useAuth();
     const [driver, setDriver] = useState({});
-    const [error, setError] = useState("");
     const [sumPoints, setSumPoints] = useState({});
 
     useEffect(() => {
@@ -32,14 +31,14 @@ function Driver() {
             .then(json => {
                 setDriver(json);
             })
-            .catch((err) => setError(err.message))
+            .catch((err) => console.error(err))
 
         getSumPoints(id);
 
     }, [])
 
-    const getSumPoints = (id) => {
-        fetch(`${process.env.REACT_APP_BASE_URI}/result/sum/${id}`,
+    const getSumPoints = (idParam) => {
+        fetch(`${process.env.REACT_APP_BASE_URI}/result/sum/${idParam}`,
             {
                 method: 'GET',
                 headers: {
@@ -58,7 +57,7 @@ function Driver() {
                 setSumPoints(res);
             })
             .catch((err) => {
-                setError(err.message)
+                console.error(err)
             });
     }
 

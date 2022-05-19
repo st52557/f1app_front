@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {AgChartsReact} from 'ag-charts-react';
 
 
@@ -6,11 +6,6 @@ function PointsGraph(props) {
 
     const data = props.data;
     const driver = props.driver;
-
-    useEffect(() => {
-
-    }, [props])
-
 
     const state = {
         options: {

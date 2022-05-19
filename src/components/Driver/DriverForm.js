@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import './Driver.scss'
-import {Link, Navigate, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useAuth} from "../User/AuthContext";
 import {Alert, Button, Form} from "react-bootstrap";
 
@@ -74,7 +74,7 @@ function DriverForm() {
             .catch((err) => setError(err.message))
     }
 
-    const goToDriver = (id) => navigate(`/driver/${id}`);
+    const goToDriver = (idParam) => navigate(`/driver/${idParam}`);
 
     function postDriver(e) {
         e.preventDefault()

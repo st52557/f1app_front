@@ -42,10 +42,7 @@ const columns = [
 function Results() {
 
     const {token} = useAuth();
-    const [error, setError] = useState("");
     const [results, setResults] = useState([]);
-    const [selectedRow, setSelectedRow] = useState([]);
-    const [editRow, setEditRow] = useState([]);
     const {admin} = useAuth();
     const [loading, setLoading] = useState(false);
     const [totalRows, setTotalRows] = useState(0);
@@ -74,7 +71,6 @@ function Results() {
         }
         clearTimeout(pendingClick)
         pendingClick = setTimeout(() => {
-            setSelectedRow(row);
             clicked = 0;
             goToResultDetail(row.id);
         }, time_dbclick);
@@ -89,7 +85,6 @@ function Results() {
 
 
     const handleDoubleClick = (row) => {
-        setEditRow(row);
         goToResultEdit(row.id);
     };
 
@@ -116,7 +111,7 @@ function Results() {
                 setLoading(false);
             })
             .catch((err) => {
-                setError(err.message)
+                console.error(err);
             });
 
     };

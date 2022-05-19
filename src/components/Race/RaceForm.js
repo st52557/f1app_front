@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import './Race.scss'
-import {Link, Navigate, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useAuth} from "../User/AuthContext";
 import {Alert, Button, Form} from "react-bootstrap";
 
@@ -70,7 +70,7 @@ function RaceForm() {
             .catch((err) => setError(err.message))
     }
 
-    const goToRace = (id) => navigate(`/race/${id}`);
+    const goToRace = (idParam) => navigate(`/race/${idParam}`);
 
     function postRace(e) {
         e.preventDefault()

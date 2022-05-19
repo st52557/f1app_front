@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import './Result.scss'
-import {Link, Navigate, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useAuth} from "../User/AuthContext";
 import {Alert, Button, Form} from "react-bootstrap";
 import Select from "react-select";
@@ -18,7 +18,6 @@ function ResultForm() {
     const [milisTime, setMilisTime] = useState(0);
     const [points, setPoints] = useState(0);
     const [positionFinal, setPositionFinal] = useState(0);
-    const [positionOrder, setPositionOrder] = useState(0);
     const [positionStart, setPositionStart] = useState(0);
     const [drivers, setDrivers] = useState([]);
     const [races, setRaces] = useState([]);
@@ -27,29 +26,17 @@ function ResultForm() {
 
     useEffect(() => {
         if (id) getResult();
+        fetchDrivers();
+        fetchRaces();
 
-        fetch( // todo get drivers metoda
-            `${process.env.REACT_APP_BASE_URI}/drivers`,
-            {
-                method: 'GET',
-                headers:
-                    {
-                        'Authorization': token
-                    }
-            })
-            .then(r => {
-                if (r.ok) {
-                    return r.json();
-                }
-                throw new Error("Unable to get data: " + r.statusText);
-            })
-            // .then(response => response.json())
-            .then(json => {
+        return () => {
+            setResult({});
+            setError("");
+        };
 
-                setDrivers((json.map(({id, name, surename}) => ({value: id, label: name + " " + surename}))));
+    }, [])
 
-            })
-            .catch((err) => setError(err.message))
+    const fetchRaces = () => {
 
         fetch(
             `${process.env.REACT_APP_BASE_URI}/races`,
@@ -64,22 +51,41 @@ function ResultForm() {
                 if (r.ok) {
                     return r.json();
                 }
-                throw new Error("Unable to get data: " + r.statusText);
+                throw new Error("Unable to get races: " + r.statusText);
             })
             .then(json => {
-                //setRaces(json)
                 setRaces((json.map(({id, circuit, year}) => ({value: id, label: year + " - " + circuit}))));
 
             })
             .catch((err) => setError(err.message))
 
-        return () => {
-            setResult({});
-            setError("");
-        };
+    }
+    const fetchDrivers = () => {
 
-    }, [])
+        fetch(
+            `${process.env.REACT_APP_BASE_URI}/drivers`,
+            {
+                method: 'GET',
+                headers:
+                    {
+                        'Authorization': token
+                    }
+            })
+            .then(r => {
+                if (r.ok) {
+                    return r.json();
+                }
+                throw new Error("Unable to get drivers: " + r.statusText);
+            })
+            .then(json => {
 
+                setDrivers((json.map(({id, name, surename}) => ({value: id, label: name + " " + surename}))));
+
+            })
+            .catch((err) => setError(err.message))
+
+
+    }
 
     const getResult = () => {
         fetch(
@@ -137,7 +143,6 @@ function ResultForm() {
             milisTime: milisTime,
             points: points,
             positionFinal: positionFinal,
-            positionOrder: positionOrder,
             positionStart: positionStart,
             raceId: selectedRace.value,
             driverId: selectedDriver.value

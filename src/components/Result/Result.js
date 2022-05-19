@@ -9,7 +9,6 @@ function Result() {
     const { id } = useParams();
     const {token} = useAuth();
     const [result, setResult] = useState({});
-    const [error, setError] = useState("");
 
 
     useEffect(() => {
@@ -31,7 +30,7 @@ function Result() {
             .then(json => {
                 setResult(json);
             })
-            .catch((err) => setError(err.message))
+            .catch((err) => console.error(err))
     }, [])
 
 

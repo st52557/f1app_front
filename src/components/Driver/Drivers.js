@@ -41,10 +41,7 @@ const columns = [
 function Drivers() {
 
     const {token} = useAuth();
-    const [error, setError] = useState("");
     const [drivers, setDrivers] = useState([]);
-    const [selectedRow, setSelectedRow] = useState([]);
-    const [editRow, setEditRow] = useState([]);
     const {admin} = useAuth();
 
     useEffect(() => {
@@ -66,7 +63,7 @@ function Drivers() {
             .then(json => {
                 setDrivers(json)
             })
-            .catch((err) => setError(err.message))
+            .catch((err) => console.error(err))
     }, [])
 
     var pendingClick;
@@ -82,7 +79,6 @@ function Drivers() {
         }
         clearTimeout(pendingClick)
         pendingClick = setTimeout(() => {
-            setSelectedRow(row);
             console.log("Single click: ", row.name);
             clicked = 0;
             goToDriverDetail(row.id);
@@ -98,7 +94,6 @@ function Drivers() {
 
 
     const handleDoubleClick = (row) => {
-        setEditRow(row);
         goToDriverEdit(row.id);
     };
 

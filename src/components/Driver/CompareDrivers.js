@@ -1,9 +1,8 @@
-import React, {useEffect, useState, Component, useMemo} from "react";
+import React, {useEffect, useState} from "react";
 import {Col, Row, Container} from "react-bootstrap";
 import './Driver.scss'
 import {useAuth} from "../User/AuthContext";
 import Select from 'react-select'
-import PointsGraph from "./PointsGraph";
 
 function CompareDrivers() {
 
@@ -12,9 +11,7 @@ function CompareDrivers() {
     const [selected1, setSelected1] = useState({});
     const [selected2, setSelected2] = useState({});
     const [comparedDrivers, setComparedDrivers] = useState({});
-    const [error, setError] = useState("");
-    const [sumPoints1, setSumPoints1] = useState({});
-    const [sumPoints2, setSumPoints2] = useState({});
+
     useEffect(() => {
 
         fetch(
@@ -38,7 +35,7 @@ function CompareDrivers() {
                 setDrivers((json.map(({id, name, surename}) => ({value: id, label: name + " " + surename}))));
 
             })
-            .catch((err) => setError(err.message))
+            .catch((err) => console.error(err))
 
     }, [])
 
@@ -61,7 +58,7 @@ function CompareDrivers() {
                 setComparedDrivers(json);
             })
             .catch((err) => {
-                setError(err.message)
+                console.error(err)
             });
     }
 
@@ -76,12 +73,10 @@ function CompareDrivers() {
 
     const selectSecondDriver = (selectedOption) => {
         setSelected2(selectedOption);
-        //getSumPoints(selectedOption.value,false);
     };
 
     const selectFirstDriver = (selectedOption) => {
         setSelected1(selectedOption);
-        //getSumPoints(selectedOption.value,true);
 
     };
 
