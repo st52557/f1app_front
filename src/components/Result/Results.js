@@ -56,11 +56,9 @@ function Results() {
     }, [perPage, currPage])
 
 
-
-
-    var pendingClick;
-    var clicked = 0;
-    var time_dbclick = 300
+    let pendingClick;
+    let clicked = 0;
+    const time_dbclick = 300;
 
     const handleClick = (row) => {
         clicked++;

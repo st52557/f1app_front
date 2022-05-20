@@ -131,7 +131,7 @@ function ResultForm() {
             .catch((err) => setError(err.message))
     }
 
-    const goToResult = (id) => navigate(`/result/${id}`);
+    const goToResult = (idParam) => navigate(`/result/${idParam}`);
 
     function postResult(e) {
         e.preventDefault()
