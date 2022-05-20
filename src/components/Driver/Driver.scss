@@ -26,3 +26,50 @@
   margin: 20px;
 }
 
+Form {
+  padding: 5px;
+}
+
+.form {
+  background-color: white;
+  text-align: center;
+  max-width: 400px;
+  min-width: 300px;
+  max-height: 700px;
+  width: 50%;
+  margin: 100px auto;
+  border-radius: 10px;
+  padding: 40px;
+}
+
+.driver-info{
+  display: flex;
+  text-align: center;
+  padding: 1em;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.driver-field{
+  text-align: center;
+  display: grid;
+  padding: 1em;
+}
+
+.driver-attribute{
+  font-size: xx-large;
+}
+
+#driver-name{
+  font-size: xxx-large;
+  margin: 2em;
+  margin: 2em;
+}
+
+#driver{
+  padding-top: 2em;
+}
+
+.compare-results{
+  font-size: x-large;
+}

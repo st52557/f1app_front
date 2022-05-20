@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import './Driver.scss'
 import {useAuth} from "../User/AuthContext";
-import {Container} from "react-bootstrap";
+import {Button, Container} from "react-bootstrap";
 import MyDataGrid from "../Home/DataGrid";
+import {useNavigate} from "react-router-dom";
 
 const columns = [
     {
@@ -40,10 +41,7 @@ const columns = [
 function Drivers() {
 
     const {token} = useAuth();
-    const [error, setError] = useState("");
     const [drivers, setDrivers] = useState([]);
-    const [selectedRow, setSelectedRow] = useState([]);
-    const [editRow, setEditRow] = useState([]);
     const {admin} = useAuth();
 
     useEffect(() => {
@@ -65,7 +63,7 @@ function Drivers() {
             .then(json => {
                 setDrivers(json)
             })
-            .catch((err) => setError(err.message))
+            .catch((err) => console.error(err))
     }, [])
 
     var pendingClick;
@@ -81,17 +79,22 @@ function Drivers() {
         }
         clearTimeout(pendingClick)
         pendingClick = setTimeout(() => {
-            setSelectedRow(row);
             console.log("Single click: ", row.name);
             clicked = 0;
+            goToDriverDetail(row.id);
         }, time_dbclick);
 
 
     };
 
+    const navigate = useNavigate();
+    const goToDriverDetail = (id) => navigate(`/driver/${id}`);
+    const goToDriverEdit = (id) => navigate(`/driver/${id}/edit`);
+    const goToDriverNew = () => navigate(`/driver/new`);
+
+
     const handleDoubleClick = (row) => {
-        setEditRow(row);
-        console.log("Double click: ", row.name);
+        goToDriverEdit(row.id);
     };
 
     return (
@@ -102,6 +105,7 @@ function Drivers() {
                 <div>
                     <h4>Table of Drivers</h4>
                     <div className="drivers-table">
+                        {admin==='true' ? <Button variant="success" onClick={goToDriverNew}>New driver</Button> : ''}
                         <MyDataGrid
                             columns={columns}
                             data={drivers}

@@ -1,7 +1,7 @@
 import {Link, Navigate} from "react-router-dom";
 import {useAuth} from "./AuthContext";
 import React, {useState} from 'react';
-import {Form, Button, Container, Row, Alert, Col} from 'react-bootstrap';
+import {Form, Button, Alert} from 'react-bootstrap';
 import './User.css'
 
 function LoginForm() {
@@ -11,7 +11,6 @@ function LoginForm() {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const {setTokens} = useAuth();
-    const {setAdmin} = useAuth();
 
     function postLogin(e) {
         e.preventDefault()

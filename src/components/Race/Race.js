@@ -9,7 +9,6 @@ function Race() {
     const { id } = useParams();
     const {token} = useAuth();
     const [race, setRace] = useState({});
-    const [error, setError] = useState("");
 
 
     useEffect(() => {
@@ -31,7 +30,7 @@ function Race() {
             .then(json => {
                 setRace(json);
             })
-            .catch((err) => setError(err.message))
+            .catch((err) => console.error(err))
     }, [])
 
 

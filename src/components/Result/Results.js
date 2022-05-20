@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import './Result.scss'
 import {useAuth} from "../User/AuthContext";
-import {Container} from "react-bootstrap";
+import {Button, Container} from "react-bootstrap";
 import MyDataGrid from "../Home/DataGrid";
+import {useNavigate} from "react-router-dom";
 
 const columns = [
     {
@@ -41,37 +42,23 @@ const columns = [
 function Results() {
 
     const {token} = useAuth();
-    const [error, setError] = useState("");
     const [results, setResults] = useState([]);
-    const [selectedRow, setSelectedRow] = useState([]);
-    const [editRow, setEditRow] = useState([]);
     const {admin} = useAuth();
+    const [loading, setLoading] = useState(false);
+    const [totalRows, setTotalRows] = useState(0);
+    const [perPage, setPerPage] = useState(10);
+    const [currPage, setCurrPage] = useState(1);
+
 
     useEffect(() => {
-        fetch(
-            `${process.env.REACT_APP_BASE_URI}/results`,
-            {
-                method: 'GET',
-                headers:
-                    {
-                        'Authorization': token
-                    }
-            })
-            .then(r => {
-                if (r.ok) {
-                    return r.json();
-                }
-                throw new Error("Unable to get data: " + r.statusText);
-            })
-            .then(json => {
-                setResults(json)
-            })
-            .catch((err) => setError(err.message))
-    }, [])
+        handleFetchResults();
 
-    var pendingClick;
-    var clicked = 0;
-    var time_dbclick = 300
+    }, [perPage, currPage])
+
+
+    let pendingClick;
+    let clicked = 0;
+    const time_dbclick = 300;
 
     const handleClick = (row) => {
         clicked++;
@@ -82,16 +69,64 @@ function Results() {
         }
         clearTimeout(pendingClick)
         pendingClick = setTimeout(() => {
-            setSelectedRow(row);
             clicked = 0;
+            goToResultDetail(row.id);
         }, time_dbclick);
 
 
     };
 
+    const navigate = useNavigate();
+    const goToResultDetail = (id) => navigate(`/result/${id}`);
+    const goToResultEdit = (id) => navigate(`/result/${id}/edit`);
+    const goToResultNew = () => navigate(`/result/new`);
+
+
     const handleDoubleClick = (row) => {
-        setEditRow(row);
+        goToResultEdit(row.id);
     };
+
+    const handleFetchResults = () => {
+        setLoading(true);
+
+        fetch(`${process.env.REACT_APP_BASE_URI}/results?page=${currPage}&size=${perPage}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json()
+                }
+                throw new Error(`Unable to get data: ${response.statusText}`)
+            })
+            .then(json => {
+                setResults(json.content)
+                setTotalRows(json.totalElements);
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+
+    };
+
+    const onPageChanged = async (page) => {
+
+        setCurrPage(page);
+
+    };
+
+    const onRowsChange = async (newPerPage) => {
+
+        setPerPage(newPerPage);
+
+    };
+
+
 
     return (
         <div id={'results'}>
@@ -101,11 +136,20 @@ function Results() {
                 <div>
                     <h4>Table of Results</h4>
                     <div className="results-table">
+                        {admin==='true' ? <Button variant="success" onClick={goToResultNew}>New result</Button> : ''}
                         <MyDataGrid
                             columns={columns}
                             data={results}
                             onRowClicked={token ? handleClick : undefined}
                             onRowDoubleClicked={admin==='true' ? handleDoubleClick : undefined}
+
+                            progressPending={loading}
+                            pagination
+                            paginationServer
+                            paginationTotalRows={totalRows}
+                            onChangeRowsPerPage={onRowsChange}
+                            onChangePage={onPageChanged}
+
                         />
                     </div>
                 </div>

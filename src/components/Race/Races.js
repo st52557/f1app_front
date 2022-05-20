@@ -26,10 +26,7 @@ const columns = [
 function Races() {
 
     const {token} = useAuth();
-    const [error, setError] = useState("");
     const [races, setRaces] = useState([]);
-    const [selectedRow, setSelectedRow] = useState([]);
-    const [editRow, setEditRow] = useState([]);
     const {admin} = useAuth();
 
     useEffect(() => {
@@ -51,7 +48,7 @@ function Races() {
             .then(json => {
                 setRaces(json)
             })
-            .catch((err) => setError(err.message))
+            .catch((err) => console.error(err))
     }, [])
 
     var pendingClick;
@@ -67,7 +64,6 @@ function Races() {
         }
         clearTimeout(pendingClick)
         pendingClick = setTimeout(() => {
-            setSelectedRow(row);
             console.log("Single click: ", row.circuit);
             clicked = 0;
             goToRaceDetail(row.id);
@@ -81,7 +77,6 @@ function Races() {
 
     const handleDoubleClick = (row) => {
         console.log("Double click: ", row.circuit);
-        setEditRow(row);
         goToRaceEdit(row.id);
     };
 

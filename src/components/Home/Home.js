@@ -5,7 +5,6 @@ import './Home.scss'
 function Home() {
 
     const {user} = useAuth();
-    const {token} = useAuth();
     const {admin} = useAuth();
 
     return (
