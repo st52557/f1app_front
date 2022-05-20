@@ -7,6 +7,7 @@
 
 - Heroku https://semf1-front.herokuapp.com/
 
+# Admin user acc - lukas / 123
 
 
 # Getting Started with Create React App
